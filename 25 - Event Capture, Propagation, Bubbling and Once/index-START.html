@@ -1,49 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Understanding JavaScript's Capture</title>
-  <link rel="icon" href="https://fav.farm/🔥" />
-</head>
-<body class="bod">
-
-  <div class="one">
-    <div class="two">
-      <div class="three">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Understanding JavaScript's Capture</title>
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body class="bod">
+    <div class="one">
+      <div class="two">
+        <div class="three"></div>
       </div>
     </div>
-  </div>
 
-<style>
-  html {
-    box-sizing: border-box;
-  }
+    <style>
+      html {
+        box-sizing: border-box;
+      }
 
-  *, *:before, *:after {
-    box-sizing: inherit;
-  }
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
 
-  div {
-    width: 100%;
-    padding: 100px;
-  }
+      div {
+        width: 100%;
+        padding: 100px;
+      }
 
-  .one {
-    background: thistle;
-  }
+      .one {
+        background: thistle;
+      }
 
-  .two {
-    background: mistyrose;
-  }
+      .two {
+        background: mistyrose;
+      }
 
-  .three {
-    background: coral;
-  }
-</style>
+      .three {
+        background: coral;
+      }
+    </style>
 
-<button></button>
-<script>
+    <button>Click</button>
+    <script>
+      const divs = document.querySelectorAll("div");
+      // console.log(divs);
+      const button = document.querySelector("button");
 
-</script>
-</body>
+      // The concept of bubbling where the browser will figure out what you clicked on, but it will also trigger clicks up every and the sort of ripple all the way up.
+      function logText(e) {
+        console.log(this.classList.value);
+        // e.stopPropagation(); // stop bubbling!
+        // console.log(this);
+      }
+
+      // Capture top down and storing them and then it will start to bubble up which means that it's triggering the events as you go up.
+      // document.body.addEventListener("click", logText); // three two one bod
+
+      divs.forEach(
+        (div) =>
+          div.addEventListener("click", logText, { capture: false, once: true })
+        // capture: true => function will not run bubble up, but it will run on the capture down. >  one two three
+      );
+
+      button.addEventListener(
+        "click",
+        () => {
+          console.log("Click!!!");
+        },
+        { once: true }
+      );
+    </script>
+  </body>
 </html>
